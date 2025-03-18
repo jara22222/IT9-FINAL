@@ -1,0 +1,235 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --body-color: #90a4944e;
+    --sidebar--color: #e8f4ea;
+    --primary-color-light: #f6f5ff;
+    --toggle-color: ;
+    --text-color: #56716e;
+    --img-color: #009688;
+
+    --trans-03: all 0.2s ease;
+    --trans-03: all 0.3s ease;
+    --trans-04: all 0.4s ease;
+    --trans-05: all 0.5s ease;
+}
+body {
+    height: 100vh;
+    background-color: var(--body-color);
+}
+
+.sidebar {
+    position: fixed;
+    padding: 12px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 300px;
+    background-color: var(--sidebar--color);
+    transition: width 0.3s ease;
+}
+.sidebar .name {
+    font-size: 18px;
+    font-weight: 1000;
+    color: var(--text-color);
+}
+.sidebar header .toggleP {
+    position: absolute;
+    font-size: 25px;
+    top: 5.5%;
+    right: -10px;
+    transform: translateY(-50%);
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #009688;
+    color: #073129;
+}
+
+.sidebar a {
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    height: 50px;
+    margin-bottom: 5px;
+    border: none;
+    background-color: #e8f4ea;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out,
+        box-shadow 0.3s ease-in-out;
+}
+
+.sidebar a:hover {
+    transform: scale(0.95);
+    background-color: #5cc9a599;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar a:hover span {
+    color: #ffffff;
+}
+
+.sidebar a.active {
+    transform: scale(0.95);
+    background-color: #5cc9a599;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar a.active span {
+    color: #ffffff;
+}
+
+li i {
+    margin-right: 14px;
+    color: #2da690;
+}
+
+span {
+    color: #657674;
+    font-weight: 500;
+}
+i {
+    font-size: 25px;
+}
+.sidebar .profile img {
+    width: 60px;
+    border-radius: 25%;
+    border: #073129 1px solid;
+}
+.sidebar .profile {
+    background-color: #009688;
+}
+.sidebar .profile p span {
+    color: #ffffff;
+}
+
+.dropdown-menu {
+    left: 35%;
+    top: calc(100% + 8px);
+    border-radius: 5px;
+    background-color: #e8f4ea;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown.active .dropdown-menu {
+    display: block;
+}
+
+i.bx-chevron-right {
+    transition: transform 0.3s ease;
+}
+
+.dropdown.active i.bx-chevron-right {
+    transform: rotate(90deg);
+}
+
+.dropdown-menu .dropdown-item {
+    color: #657674;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    color: #ffffff;
+}
+
+.sidebar.shrink {
+    width: 80px;
+}
+
+.sidebar.shrink .name,
+.sidebar.shrink span,
+.sidebar.shrink .dropdown-menu,
+.sidebar.shrink .profile p {
+    display: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease-in-out;
+}
+
+.sidebar.shrink .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar.shrink .dropdown i.bx-chevron-right {
+    display: none;
+}
+
+.sidebar.shrink .profile {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar.shrink header .toggleP {
+    right: -15px;
+}
+
+.sidebar * {
+    transition: all 0.3s ease-in-out;
+}
+
+.main-content {
+    margin-left: 300px;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+    width: calc(100% - 300px);
+}
+
+.sidebar.shrink + .main-content {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+
+    .main-content {
+        margin-left: 80px;
+    }
+
+    .navbar-nav {
+        display: none;
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none;
+}
+
+/* For Internet Explorer and Edge */
+body {
+    -ms-overflow-style: none;
+}
+.table {
+    background-color: transparent !important; 
+}
+
+.table th,
+.table td {
+    background-color: transparent !important; 
+}
