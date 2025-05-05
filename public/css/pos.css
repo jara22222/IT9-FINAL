@@ -1,0 +1,190 @@
+:root {
+    --primary-color: #3a4b8a;
+    --secondary-color: #5c6bc0;
+    --accent-color: #7e8fd3;
+    --light-bg: #f5f7ff;
+    --dark-text: #2d3748;
+    --success-color: #48bb78;
+    --warning-color: #ed8936;
+    --danger-color: #f56565;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    overflow-x: hidden;
+}
+
+.sidebar {
+    background-color: white;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    min-height: 100vh;
+}
+
+.sidebar-header {
+    background-color: var(--primary-color);
+    padding: 1rem;
+}
+
+.sidebar-header a {
+    color: white !important;
+}
+
+.sidebar-items .btn {
+    transition: all 0.2s ease;
+    color: var(--dark-text);
+    margin: 0.25rem 0;
+    text-align: left;
+    width: 100%;
+}
+
+.sidebar-items .btn:hover,
+.sidebar-items .btn.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.main-header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: none;
+}
+
+.product-card {
+    transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.transaction-panel {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.show-products,
+.transcript {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.show-products ul.list-group {
+    max-height: 555px;
+    overflow-y: auto;
+}
+
+.show-products ul.list-group li {
+    cursor: pointer;
+}
+
+#transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#transaction-table th,
+#transaction-table td {
+    padding: 8px;
+    border: 1px solid #dee2e6;
+}
+
+#transaction-table th {
+    background-color: #e9ecef;
+}
+
+#transaction-total {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.buttons button {
+    font-weight: bold;
+}
+
+.buttons button#pay-button {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.buttons button#cancel-button {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+.sidebar {
+    width: 80px;
+    transition: width 0.3s ease;
+    background-color: white;
+    min-height: 100vh;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed {
+    width: 50px;
+}
+
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .sidebar-items .btn span {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-items .btn {
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        width: 100% !important;
+        min-height: auto;
+        flex-direction: row;
+        border-top: 1px solid #e2e8f0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 1.5rem;
+    }
+}

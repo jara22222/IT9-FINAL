@@ -19,8 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'password',
+        'confirm_password',
+        'rid',
+        'eid',
     ];
 
     /**
@@ -44,5 +46,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'rid', 'rid');
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employees::class, 'eid');
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->roles === $roleName;
     }
 }

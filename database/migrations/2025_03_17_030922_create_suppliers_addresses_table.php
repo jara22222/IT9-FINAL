@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers_address', function (Blueprint $table) {
-            $table->string('BID',10)->primary();
-            $table->string('SID', 10);
-            $table->foreign('SID')->references('SID')->on('suppliers')->onDelete('cascade');
+        Schema::create('suppliers_addresses', function (Blueprint $table) {
+            $table->id('BID');
+            $table->foreignId('SID')->nullable();
             $table->string('Branch',30);
             $table->timestamps();
+            $table->foreign('SID')->references('SID')->on('suppliers')->onDelete('cascade');
         });
     }
 

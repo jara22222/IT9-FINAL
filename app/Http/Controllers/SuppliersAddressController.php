@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\suppliers_address;
+use App\Models\SuppliersAddress;
+use App\Models\Suppliers;
 use Illuminate\Http\Request;
 
 class SuppliersAddressController extends Controller
@@ -34,7 +34,7 @@ class SuppliersAddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(suppliers_address $suppliers_address)
+    public function show(SuppliersAddress $SuppliersAddress)
     {
         //
     }
@@ -42,7 +42,7 @@ class SuppliersAddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(suppliers_address $suppliers_address)
+    public function edit(SuppliersAddress $SuppliersAddress)
     {
         //
     }
@@ -50,7 +50,7 @@ class SuppliersAddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, suppliers_address $suppliers_address)
+    public function update(Request $request, SuppliersAddress $SuppliersAddress)
     {
         //
     }
@@ -58,7 +58,7 @@ class SuppliersAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(suppliers_address $suppliers_address)
+    public function destroy(SuppliersAddress $SuppliersAddress)
     {
         //
     }
