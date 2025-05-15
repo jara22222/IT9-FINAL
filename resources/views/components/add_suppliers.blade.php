@@ -1,5 +1,5 @@
 <div class="modal fade" id="addSuppliers" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="max-width: 800px;">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('add-suppliers') }}" method="POST" hx-target="body" hx-swap="innerHTML">
                 @csrf
@@ -21,12 +21,12 @@
 
                     </div>
                     <div class="mb-3 row d-flex">
-                        <div class="col-md-6">
+                        <div class="col-md-12 my-2">
                             <label for="firstName" class="form-label">Suppliers/Company name</label>
                             <input type="text" value="{{ old('first_name') }}" placeholder="Enter Name"
                                 class="form-control" id="company_name" name="company_name" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12 my-2">
                             <label for="firstName" class="form-label">Branch name</label>
                             <input type="text" value="{{ old('middle_name') }}" placeholder="Enter Branch Name"
                                 class="form-control" id="branch" name="branch" required>

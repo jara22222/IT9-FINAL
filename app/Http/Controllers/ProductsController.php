@@ -8,6 +8,7 @@ use App\Models\Suppliers;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -16,10 +17,39 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $suppliers = Suppliers::all();
+        $categories = Categories::all();
+        $products = products::paginate(10);
+
         
     
-        return view('admin.adm_products');
+        return view('cashier.pos_products',compact('suppliers','categories','products'));
     }
+
+    public function posproducts(Request $request)
+{
+    $query = Products::with(['categories', 'suppliers']);
+
+    if ($search = $request->input('search')) {
+        $query->where('product_name', 'like', "%$search%");
+    }
+
+    if ($categoryId = $request->input('category')) {
+        $query->where('ptid', $categoryId);
+    }
+
+    if ($priceSort = $request->input('price_sort')) {
+        $query->orderBy('price', $priceSort);
+    }
+
+    $products = $query->paginate(20); 
+    $categories = Categories::all();
+    $suppliers = Suppliers::all();
+
+    return view('cashier.pos', compact('products', 'categories', 'suppliers'));
+}
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -40,18 +70,26 @@ class ProductsController extends Controller
         
         try{
             DB::beginTransaction();
+
+            $imagePath = null;
+            if ($req->hasFile('image')) {
+                $imagePath = $req->file('image')->store('products', 'public');
+            }
+
             $products = products::create([
                 'product_name' => $req['product'],
                 'price' => $req['price'],
-                'SID' =>$req['supplier'],
-                'PTID' => $req['category'],
+                'sid' =>$req['supplier'],
+                'ptid' => $req['category'],
+                'stock' =>$req['stock'],
                 'product_desc' => $req['description'],
+                'image' =>  $imagePath,
             ]);
         
            
        
         DB::commit();
-        return redirect()->route('show-products')->with('success', 'Product added successfully');
+        return redirect()->route('pos.showproducts')->with('success', 'Product added successfully');
 
         }catch(\illuminate\Database\QueryException $e){
             DB::rollback();
@@ -72,10 +110,23 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(products $products)
+    public function edit(Request $request, $pid)
     {
-        //
+        $validated = $request->validate([
+            'stock' => 'required|integer|min:0',
+        ]);
+    
+        $product = products::findOrFail($pid);
+        
+        $product->update([
+            'stock' => $validated['stock'],
+        ]);
+    
+        return redirect()
+            ->route('pos.showproducts')
+            ->with('success', 'Product updated successfully');
     }
+    
 
     /**
      * Update the specified resource in storage.

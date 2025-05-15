@@ -1,6 +1,6 @@
-<div>
+<div class="mt-3">
     <div class="table-responsive-lg ">
-        <div class="table-viewer" style="position: relative; max-height: 400px; overflow: auto;">
+        <div class="table-viewer" id="tableContent" style="position: relative; max-height: 400px; overflow: auto;">
             <table class="table table-striped text-center shadow-sm ">
                 <thead style="position: sticky; top: 0; background: white; z-index: 1;">
                     <tr>
@@ -21,9 +21,7 @@
                             <td>{{ $supplier->sid }}</td>
                             <td>{{ $supplier->company_name }}</td>
                             <td>
-                                @foreach ($supplier->addresses as $address)
-                                    {{ $address->branch }}
-                                @endforeach
+                                {{ $supplier->address->branch ?? 'N/A' }}
                             </td>
                             <td>{{ $supplier->created_at->format('F. j, Y : g:i A') }}</td>
                             <td>{{ $supplier->updated_at->format('F. j, Y : g:i A') }}</td>
@@ -33,7 +31,7 @@
                                     data-bs-target="#editModal{{ $supplier->sid }}">
                                     <i class="bi bi-pencil-square fs-6"></i>
                                 </button>
-                                {{-- <x-delete-button :route="route('role.deleterole', ['sid' => $supplier->sid])" :supplier="$supplier" /> --}}
+                                <x-delete-button :route="route('delete.suppliers', ['sid' => $supplier->sid])" :supplier="$supplier" />
 
                             </td>
                         </tr>

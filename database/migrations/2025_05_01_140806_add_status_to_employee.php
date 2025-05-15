@@ -25,8 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('employees', function (Blueprint $table) {
-             $table->smallInteger('status')->default(0)->after('phone');
-        });
+      //drop column status if exist
+      Schema::table('employees', function (Blueprint $table) {
+        $table-> dropColumn('status');
+        }); 
     }
 };

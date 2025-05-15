@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Orders;
 
 class Employees extends Model
 {
@@ -35,6 +36,10 @@ class Employees extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'eid', 'eid');
+    }
+
+    public function orders(){
+        return $this-> hasMany(Orders::class, 'eid', 'eid');
     }
 
     protected $casts = [

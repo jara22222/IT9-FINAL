@@ -14,7 +14,7 @@ class SuppliersController extends Controller
      */
     public function index()
     {
-        return view('admin.adm_suppliers');
+        //
     }
 
     /**
@@ -30,43 +30,68 @@ class SuppliersController extends Controller
      */
     public function store(Request $request)
     {
-        try {
         $request->validate([
             'company_name' => 'required|string|max:30',
             'branch' => 'required|string|max:50', 
         ]);
-
-        DB::beginTransaction(); 
-
-        $supplier = Suppliers::create([
-            'company_name' => $request->company_name,
-        ]);
-
-        SuppliersAddress::create([
-            'sid' => $supplier->id,
-            'branch' => $request->branch,
-        ]);
-
-        DB::commit(); 
-
-        return redirect()->route('suppliers')->with('success', 'Supplier added successfully.');
-    } catch (\Exception $e) {
-        DB::rollBack(); 
-
-        return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+    
+        
+        $existingSupplier = Suppliers::where('company_name', $request->company_name)->first();
+        if ($existingSupplier) {
+            return redirect()->back()->with('error', 'Supplier already exists.');
+        }
+    
+        try {
+            DB::beginTransaction(); 
+    
+            $supplier = Suppliers::create([
+                'company_name' => $request->company_name,
+            ]);
+    
+            SuppliersAddress::create([
+                'sid' => $supplier->sid,
+                'branch' => $request->branch,
+            ]);
+    
+            DB::commit(); 
+    
+            return redirect()->route('suppliers')->with('success', 'Supplier added successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+        }
     }
-    }
+    
 
     /**
      * Display the specified resource.
      */
-public function show(Request $request)
-{
-    $suppliers = Suppliers::with('addresses')->paginate(10);
+    public function show(Request $request)
+    {
+        $query = Suppliers::with('address');
+ 
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('company_name', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('address', function ($q2) use ($request) {
+                      $q2->where('branch', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+        
     
 
-    return view('admin.adm_suppliers', compact('suppliers'));
-}
+        if ($request->sort === 'new') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->sort === 'old') {
+            $query->orderBy('created_at', 'asc');
+        }
+    
+        $suppliers = $query->paginate(10);
+    
+        return view('admin.adm_suppliers', compact('suppliers'));
+    }
+    
 
 
 
@@ -95,18 +120,12 @@ public function show(Request $request)
         DB::commit();
         $supplier = Suppliers::findOrFail($sid);
 
-        if($supplier->company_name == $validated['company_name']){
-            return redirect()->route('suppliers')
-                   ->with('error', 'Company already exists');
-        }
+     
         $supplier->update([
             'company_name' => $validated['company_name'],
         ]);
         $supplierAddress = SuppliersAddress::where('sid', $sid)->first();
-         if($supplierAddress->branch == $validated['branch']){
-            return redirect()->route('suppliers')
-                   ->with('error', 'Branch already exists');
-        }
+        
         $supplierAddress->
         update([
             'branch' => $validated['branch'],
@@ -118,18 +137,18 @@ public function show(Request $request)
                
     } catch (\Exception $e) {
         DB::rollBack();
-        logger()->error('Supplier update failed: ' . $e->getMessage());
+     
         return back()->with('error', 'Failed to update supplier');
     }
 }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(suppliers $suppliers, $SID)
+    public function destroy(suppliers $suppliers, $sid)
     {
         DB::beginTransaction();
         try{
-           Suppliers::where('SID', $SID)->delete();
+           Suppliers::where('sid', $sid)->delete();
             DB::commit();
             return redirect()->route('suppliers')->with('success','Deleted successfully');
             }catch(\Exception $e){

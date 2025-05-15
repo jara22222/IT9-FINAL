@@ -1,7 +1,7 @@
 @foreach ($suppliers as $supplier)
     <div class="modal fade" id="editModal{{ $supplier->sid }}" tabindex="-1" aria-labelledby="addModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 800px;">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <form action="{{ route('update-suppliers', ['sid' => $supplier->sid]) }}" method="POST" hx-target="body"
                     hx-swap="innerHTML">
@@ -25,17 +25,18 @@
 
                         </div>
                         <div class="mb-3 row d-flex">
-                            <div class="col-md-6">
+                            <div class="col-md-12 my-2">
                                 <label for="firstName" class="form-label">Suppliers/Company name</label>
                                 <input type="text" value="{{ $supplier->company_name }}" placeholder="Enter Name"
                                     class="form-control" id="company_name" name="company_name" required>
                             </div>
-                            <div class="col-md-6">
-                                @foreach ($supplier->addresses as $address)
-                                    <label for="firstName" class="form-label">Branch name</label>
-                                    <input type="text" value="{{ $address->branch }}" placeholder="Enter Branch Name"
-                                        class="form-control" id="branch" name="branch" required>
-                                @endforeach
+                            <div class="col-md-12 my-2">
+
+                                <label for="firstName" class="form-label">Branch name</label>
+                                <input type="text" placeholder="Enter Branch Name"
+                                    value="{{ $supplier->address->branch ?? 'n/a' }}" class="form-control"
+                                    id="branch" name="branch" required>
+
                             </div>
                         </div>
 

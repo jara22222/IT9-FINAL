@@ -1,6 +1,6 @@
 <div>
     <div class="table-responsive-lg ">
-        <div class="table-viewer" style="position: relative; max-height: 400px; overflow: auto;">
+        <div class="table-viewer" id="tableContent" style="position: relative; max-height: 400px; overflow: auto;">
             <table class="table table-striped text-center shadow-sm ">
                 <thead style="position: sticky; top: 0; background: white; z-index: 1;">
                     <tr>

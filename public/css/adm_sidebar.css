@@ -1,64 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
-    --body-color: #ffffff4e;
-    --sidebar--color: #b3e8be;
-    --primary-color-light: #f6f5ff;
-    --toggle-color: #009688; /* Added missing value */
+    --sidebar-bg: #dceadc;
     --text-color: #56716e;
-    --img-color: #009688;
+    --hover-bg: #e6f4ea;
+    --hover-text: #198754;
+    --active-bg: #d1f0dc;
+    --active-text: #198754;
+    --font-family: "Poppins", sans-serif;
 
-    /* Fixed duplicate transition declarations */
     --trans-02: all 0.2s ease;
     --trans-03: all 0.3s ease;
     --trans-04: all 0.4s ease;
     --trans-05: all 0.5s ease;
 }
+
 body {
-    overflow: hidden;
+    background-color: rgb(244, 248, 244);
+}
+* {
     font-family: "Poppins", sans-serif;
-}
-
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: var(--sidebar--color);
-    border-right: 1px solid #959595;
-    transition: width 0.3s ease;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.sidebar.shrink {
-    width: 80px;
-}
-
-.sidebar-header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 1rem 0;
-}
-
-.sidebar-items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.list-items a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
 }
 
 .main-content {
@@ -68,17 +28,26 @@ body {
     background-color: #f0fff7;
 }
 
-a {
-    text-decoration: none;
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: rgb(244, 248, 244);
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        width: 80px;
-    }
+.bg-clay-green {
+    background-color: #6e7f61;
+    color: white;
+}
 
-    .sidebar.shrink {
-        width: 0;
-        overflow: hidden;
-    }
+.bg-clay-green a:hover {
+    background-color: #5c6c52 !important;
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+}
+#tableContent table {
+    table-layout: auto;
+    width: 100% !important;
+    word-wrap: break-word;
+    font-size: 12px; /* shrink if needed */
 }

@@ -1,111 +1,91 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 800px;">
         <div class="modal-content">
-            <form action="{{ route('add-employees') }}" method="POST" hx-target="body" hx-swap="innerHTML">
+            <form action="{{ route('pos.addproducts') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
                 <div class="modal-header text-white" style="background-color: #3a4b8a;">
-                    <h5 class="modal-title" id="addModalLabel">Add New Employees</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add New Products</h5>
                     <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <div class="label mb-3">
-                        <p class="h4 fw-bold">Employees personal details</p>
-
-                    </div>
-                    <div class="mb-3 row d-flex">
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">First name</label>
-                            <input type="text" value="{{ old('first_name') }}" placeholder="Enter First Name"
-                                class="form-control" id="firstName" name="first_name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Middle name</label>
-                            <input type="text" value="{{ old('middle_name') }}" placeholder="Enter Middle Name"
-                                class="form-control" id="firstName" name="middle_name" required>
+                    <!-- Product Details Section -->
+                    <div class="mb-4">
+                        <div class="label mb-3">
+                            <p class="h4 fw-bold">Product details</p>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Last name</label>
-                            <input type="text" value="{{ old('last_name') }}" placeholder="Enter Last Name"
-                                class="form-control" id="firstName" name="last_name" required>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="product_name" class="form-label">Product name</label>
+                                <input type="text" value="{{ old('product_name') }}" placeholder="Enter product name"
+                                    class="form-control" id="product_name" name="product" required>
+                            </div>
 
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Age</label>
-                            <input type="number" min="0" placeholder="Enter age" value="{{ old('age') }}"
-                                class="form-control" id="firstName" name="age" required>
-                        </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select name="category" id="category" class="form-select">
+                                    <option value="" selected disabled>Select category</option>
+                                    @forelse ($categories as $category)
+                                        <option value="{{ $category->ptid }}">{{ $category->category_name }}</option>
+                                    @empty
+                                        <option value="">{{ __('No categories found!') }}</option>
+                                    @endforelse
+                                </select>
+                            </div>
 
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Gender</label>
-                            <select name="gender" id="" class="form-control">
-                                <option value="" data-bs-toggle="dropdown" selected disabled>Select Gender
-                                </option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="supplier" class="form-label">Supplier</label>
+                                <select name="supplier" id="supplier" class="form-select">
+                                    <option value="" selected disabled>Select supplier</option>
+                                    @forelse ($suppliers as $supplier)
+                                        <option value="{{ $supplier->sid }}">{{ $supplier->company_name }}</option>
+                                    @empty
+                                        <option value="">{{ __('No suppliers found!') }}</option>
+                                    @endforelse
+                                </select>
+                            </div>
 
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Birth Date</label>
-                            <input type="date" placeholder="Select date" value="{{ old('birthday') }}"
-                                class="form-control" id="firstName" name="birthday" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="label mb-3">
-                        <p class="h4 fw-bold">Employees Contacts</p>
-                    </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" min="0" placeholder="0.00" step=".01"
+                                    value="{{ old('price') }}" class="form-control" id="price" name="price"
+                                    required>
+                            </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Email</label>
-                            <input type="email" value="{{ old('email') }}" placeholder="JohnDoe@gmail.com"
-                                class="form-control" id="firstName" name="email" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Phone No.</label>
-                            <input type="text" value="{{ old('phone') }}" placeholder="09292396588"
-                                class="form-control" id="firstName" name="phone" required>
-                        </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="price" class="form-label">Stock</label>
+                                <input type="number"placeholder="0" min="1" value="{{ old('stock') }}"
+                                    class="form-control" id="stock" name="stock" required>
+                            </div>
 
+                            <div class="col-12 mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                            </div>
+                        </div>
                     </div>
 
                     <hr>
-                    <div class="label mb-3">
-                        <p class="h4 fw-bold">Employees Address</p>
 
+                    <!-- Image Upload Section -->
+                    <div class="mb-3">
+                        <div class="label mb-3">
+                            <p class="h4 fw-bold">Import image</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="file" name="image" class="form-control" id="inputGroupFile04"
+                                        aria-describedby="inputGroupFileAddon04" aria-label="Upload"
+                                        accept="image/*,.jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.tiff">
+                                </div>
+                                <small class="text-muted">Accepted formats: JPG/PNG</small>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Street</label>
-                            <input type="text" value="{{ old('street') }}" placeholder="Enter Street"
-                                class="form-control" id="firstName" name="street" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">City</label>
-                            <input type="text" value="{{ old('city') }}" placeholder="Enter City"
-                                class="form-control" id="firstName" name="city" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Province</label>
-                            <input type="text" value="{{ old('province') }}" placeholder="Enter Province"
-                                class="form-control" id="firstName" name="province" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="firstName" class="form-label">Zip</label>
-                            <input type="number" value="{{ old('zip') }}" placeholder="Enter Zip"
-                                class="form-control" id="firstName" name="zip" required>
-                        </div>
-
-                    </div>
-
-
-
                 </div>
 
                 <div class="modal-footer">

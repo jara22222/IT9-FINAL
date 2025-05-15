@@ -46,12 +46,29 @@ class RolesController extends Controller
 
     /**
      * Display the specified resource.
-     */
-    public function show(Roles $roles, Request $request)
-    {
-    $roles = Roles::paginate(10);
-        return view('admin.adm_roles',compact('roles'));
+     */public function show(Request $request)
+{
+    $query = Roles::query();
+
+    // Filter by role name
+    if ($request->filled('search')) {
+        $query->where('roles', 'like', '%' . $request->search . '%');
     }
+
+    // Sort by created_at
+    if ($request->filled('sort')) {
+        if ($request->sort === 'new') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->sort === 'old') {
+            $query->orderBy('created_at', 'asc');
+        }
+    }
+
+    $roles = $query->paginate(20);
+
+    return view('admin.adm_roles', compact('roles'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

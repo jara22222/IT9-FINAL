@@ -23,4 +23,5 @@ class show_pos_products extends Component
     {
         return view('components.show_pos_products');
     }
+    
 }

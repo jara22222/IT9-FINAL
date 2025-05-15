@@ -17,12 +17,47 @@ class EmployeesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */ public function index()
-    {
-        $employees = Employees::with('addresses')->paginate(10);
-        $roles = Roles::all();
-        return view('admin.adm_employees', compact('employees','roles'));
+     */ 
+    public function index(Request $request)
+{
+    $query = Employees::with('addresses');
+
+
+    if ($request->has('search') && $request->search !== null) {
+        $query->where(DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"), 'LIKE', '%' . $request->search . '%');
     }
+
+
+  
+    if ($request->has('sort') && $request->sort === 'old') {
+        $query->orderBy('created_at', 'asc');
+    } elseif ($request->has('sort') && $request->sort === 'new') {
+        $query->orderBy('created_at', 'desc');
+    }
+
+   
+    
+    if ($request->filled('acc_search')) {
+        $query->where('name', 'like', '%' . $request->acc_search . '%');
+    }
+    
+
+
+   
+    // Sort by creation date
+    if ($request->filled('sort')) {
+        if ($request->sort === 'old') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($request->sort === 'new') {
+            $query->orderBy('created_at', 'desc');
+        }
+    }
+    $roles = Roles::all();
+    $employees = $query->paginate(10)->appends($request->all());
+  
+
+    return view('admin.adm_employees', compact('employees', 'roles'));
+}
 
     /**
      * Show the form for creating a new resource.

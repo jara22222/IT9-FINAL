@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class RegisteredUserController extends Controller
 {
@@ -55,7 +57,55 @@ class RegisteredUserController extends Controller
 
     public function index()
     {
-        return view('admin.adm_accounts');
+
+        $users = User::with(['role'])->paginate(10);
+       
+        return view('admin.adm_accounts',compact('users'));
+    }
+    public function destroy($id)
+    {
+
+        $users = User::findOrFail($id)->delete();
+       
+        return redirect()->back()->with('success','Successfully deleted');
+    }
+
+    public function update(Request $request, $id){
+        
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|min:8',
+            
+        ]);
+        if($request->confirm_password != $request->password){
+            return redirect()->back()->with('error','Password and Confirm password does not match!');
+        }
+       try{
+       
+
+            DB::beginTransaction();
+          
+           
+            $user = User::findOrFail($id);
+            
+            $user->
+                update(['name' => $request->name,
+            'password' => Hash::make($request->password),]);
+            
+            DB::commit();
+            return redirect()->
+                back()->with('success','User updated successfully');
+            
+
+       }catch(QueryException $e){
+        DB::rollBack();
+        return redirect()->
+        back()->
+        with('error','Error updating user');
+
+       }
+        
     }
 
   

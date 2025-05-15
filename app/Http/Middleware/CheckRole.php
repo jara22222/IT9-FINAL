@@ -25,6 +25,12 @@ class CheckRole
                 return $next($request);
             }
         }
+        //Check owener of the user Employee
+       
+
+        
+
+        
 
         return redirect()->back()->with('error', 'You do not have permission to access this page.');
         // abort(403, 'Unauthorized access.');

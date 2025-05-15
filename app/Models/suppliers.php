@@ -13,8 +13,8 @@ class Suppliers extends Model
     protected $fillable = [ 'company_name'];
 
 
-    public function addresses(){
-        return $this->belongsTo(SuppliersAddress::class,'sid','sid');
+    public function address(){
+        return $this->hasOne(SuppliersAddress::class, 'sid', 'sid');
     }
 
     public function products()

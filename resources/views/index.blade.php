@@ -76,9 +76,14 @@
                 font-size: 28px;
             }
 
-            .input-group {
+            .input-group:nth-child(2) {
                 position: relative;
-                margin-bottom: 30px;
+                margin-bottom: 25px;
+            }
+
+            .input-group:nth-child(3) {
+                position: relative;
+                margin-bottom: 15px;
             }
 
             .input-group input {
@@ -316,24 +321,46 @@
                         required autofocus autocomplete="name" />
                     <label for="username">Username</label>
                     @if ($errors->has('name'))
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <audio src="{{ asset('audio/error.mp3') }}" autoplay></audio>
+                        <span class="text-danger" style="color: red">{{ $errors->first('name') }}</span>
                     @endif
 
                 </div>
 
                 <div class="input-group">
+
                     <input id="password" class="block mt-1 w-full" type="password" name="password" required
                         autocomplete="current-password" />
+
                     <label for="password">Password</label>
                     @if ($errors->has('password'))
-                        <span class="text-danger z-40">{{ $errors->first('password') }}</span>
+                        <audio src="{{ asset('audio/error.mp3') }}" autoplay></audio>
+                        <span class="text-danger z-40" style="color: red">{{ $errors->first('password') }}</span>
                     @endif
+                    {{-- add show password --}}
+
 
 
                 </div>
-                <button type="submit" class="btn">Sign In</button>
+                <div class=" d-flex gap-2">
+                    <input type="checkbox" id="pass" onclick="showPass()" class="form-control">
+                    <label for="pass"><small>Show password</small></label>
+                </div>
+
+                <button type="submit" class="btn mt-2">Sign In</button>
+
             </form>
         </div>
     </body>
+    <script>
+        function showPass() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 
 </html>

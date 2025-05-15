@@ -67,26 +67,25 @@ class CategoriesController extends Controller
      */
     public function show(Request $request)
     {
-        
-    $filterDate = $request->input('filter_date');
-    $search = $request->input('search');
-
-    $categories = Categories::
-        when($filterDate, function ($query) use ($filterDate) {
-
-            return $query->whereRaw("DATE_FORMAT(created_at, '%M %e, %Y') = ?", [$filterDate]);
-        })
-        ->when($search, function ($query) use ($search) {
-            $query->where('category_name', 'like', '%' . $search . '%');
-        })
-        ->paginate(7);
-
-     $dates = Categories::selectRaw('DATE_FORMAT(created_at, "%M %e, %Y") as grouped_dates')
-        ->groupBy('grouped_dates')
-        ->pluck('grouped_dates'); 
+        $search = $request->input('search');
+        $sort = $request->input('sort');
     
-    return view('admin.adm_categories', compact('categories', 'dates'));
-}
+        $categories = Categories::when($search, function ($query) use ($search) {
+                $query->where('category_name', 'like', '%' . $search . '%');
+            })
+            ->when($sort, function ($query) use ($sort) {
+                if ($sort === 'new') {
+                    $query->orderBy('created_at', 'desc');
+                } elseif ($sort === 'old') {
+                    $query->orderBy('created_at', 'asc');
+                }
+            })
+            ->paginate(7);
+    
+        return view('admin.adm_categories', compact('categories'));
+    }
+    
+    
 
 
     /**
