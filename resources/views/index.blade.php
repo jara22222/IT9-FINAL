@@ -127,7 +127,7 @@
             .btn {
                 width: 100%;
                 padding: 15px;
-                background: linear-gradient(45deg, #97cf8a, #315e26);
+                background: #315e26;
                 border: none;
                 border-radius: 10px;
                 color: white;
@@ -139,7 +139,7 @@
             }
 
             .btn:hover {
-                background: linear-gradient(45deg, #acd1af, #315a39);
+                background: linear-gradient(45deg, #64a46a);
                 transform: translateY(-3px);
                 box-shadow: 0 8px 20px rgba(149, 194, 138, 0.6);
             }
